@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    .contenedor {
+  background-color: #eeddbb;
+  border: 2px solid #a1703a;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 32px;
+  color: #6b4f27;
+}
+
+.contador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.numero {
+  font-size: 64px;
+  margin: 0 20px;
+}
+
+.boton {
+  background-color: #d7b68d; /* color marrón pastel */
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px 20px;
+  font-size: 2em; /* tamaño base */
+}
+
+.boton:hover {
+  opacity: 0.8; /* reducir la opacidad en el hover */
+}
+
+#restar.numero-cero {
+  opacity: 0.5; /* reducir la opacidad del botón restar si el contador es 0 */
+}
+
+#reset {
+  background-color: #6b4f27;
+}
+
+#reset:hover {
+  background-color: #a1703a;
+}
+@media (max-width: 768px) {
+  .boton {
+    font-size: 1.5em; /* tamaño para pantallas más pequeñas */
+  }
+}
+
+  
+  </style>
+  <body>
+    <div class="contenedor">
+      <h2>Mi café</h2>
+      <div class="contador">
+        <button class="boton" id="sumar">+</button>
+        <p class="numero">0</p>
+        <button class="boton" id="restar">-</button>
+      </div>
+      <button class="boton" id="reset">Reset</button>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+    // Tu código JavaScript va aquí
+    // Seleccionamos los elementos del DOM que necesitamos
+    const botonSumar = document.getElementById("sumar");
+    const botonRestar = document.getElementById("restar");
+    const botonReset = document.getElementById("reset");
+    const contador = document.querySelector(".numero");
+
+    // Definimos la función para sumar al contador
+    function sumar() {
+        let valorActual = parseInt(contador.textContent);
+        contador.textContent = valorActual + 1;
+        botonRestar.style.opacity = "1"; // Hacer visible el botón de restar cuando se aumenta el valor del contador
+    }
+
+    // Definimos la función para restar al contador
+    function restar() {
+        let valorActual = parseInt(contador.textContent);
+        if (valorActual > 0) { // Añadir condición para que el contador nunca sea negativo
+            contador.textContent = valorActual - 1;
+            if (valorActual === 1) { // Si el contador llega a 1, hacer el botón de restar menos transparente
+                botonRestar.style.opacity = "0.5";
+            }
+        }
+    }
+
+    // Definimos la función para resetear el contador
+    function resetear() {
+        contador.textContent = "0";
+        botonRestar.style.opacity = "0.5"; // Hacer menos transparente el botón de restar al resetear el contador
+    }
+
+    // Añadimos los event listeners para cada botón
+    botonSumar.addEventListener("click", sumar);
+    botonRestar.addEventListener("click", restar);
+    botonReset.addEventListener("click", resetear);
+
+    // Establecer la función para actualizar el contador
+    function actualizarContador() {
+        // Obtener la hora actual
+        const ahora = new Date();
+        const hora = ahora.getHours();
+        const minutos = ahora.getMinutes();
+
+        // Si la hora es igual a las 00:00, establecer el contador a 0
+        if (hora === 0 && minutos === 0) {
+            contador.textContent = "0";
+            botonRestar.style.opacity = "0.5"; // Hacer menos transparente el botón de restar al establecer el contador a 0
+        }
+    }
+
+    // Actualizar el contador cada minuto
+    setInterval(actualizarContador, 60 * 1000);
+
+});
+
+    </script>
+
+  </body>
+</html>
